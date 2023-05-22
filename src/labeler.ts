@@ -251,12 +251,14 @@ async function addLabels(
   labels: string[]
 ) {
   if (labels.length <= LABELS_LIMIT_TO_ADD_AT_ONCE) {
-      await sendLabels(client, prNumber, labels);
-      return;
+    await sendLabels(client, prNumber, labels);
+    return;
   }
 
   if (labels.length > ISSUE_LABELS_LIMIT) {
-    core.warning(`Labels limit exceeded. The maximum allowable number of labels is ${ISSUE_LABELS_LIMIT}. Only ${ISSUE_LABELS_LIMIT} labels will be added.`);
+    core.warning(
+      `Labels limit exceeded. The maximum allowable number of labels is ${ISSUE_LABELS_LIMIT}. Only ${ISSUE_LABELS_LIMIT} labels will be added.`
+    );
     labels.splice(ISSUE_LABELS_LIMIT);
   }
 
