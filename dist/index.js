@@ -43,6 +43,7 @@ exports.checkGlobs = exports.run = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const yaml = __importStar(__nccwpck_require__(1917));
+const fs = __importStar(__nccwpck_require__(7147));
 const minimatch_1 = __nccwpck_require__(2002);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -123,6 +124,9 @@ function getLabelGlobs(client, configurationPath) {
 }
 function fetchContent(client, repoPath) {
     return __awaiter(this, void 0, void 0, function* () {
+        if (!fs.existsSync(repoPath)) {
+            core.error('labeler.yml file not found');
+        }
         const response = yield client.rest.repos.getContent({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,

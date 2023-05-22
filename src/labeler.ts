@@ -1,6 +1,7 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import * as yaml from 'js-yaml';
+import * as fs from 'fs';
 import {Minimatch} from 'minimatch';
 
 interface MatchConfig {
@@ -112,6 +113,9 @@ async function fetchContent(
   client: ClientType,
   repoPath: string
 ): Promise<string> {
+  if (!fs.existsSync(repoPath)) {
+    core.error('labeler.yml file not found');
+  }
   const response: any = await client.rest.repos.getContent({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
