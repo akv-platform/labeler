@@ -116,6 +116,11 @@ async function fetchContent(
   if (!fs.existsSync(repoPath)) {
     core.error('labeler.yml file not found');
   }
+  core.debug('!!!!')
+  core.debug(github.context.repo.owner)
+  core.debug(github.context.repo.owner)
+  core.debug(repoPath)
+  core.debug(github.context.sha)
   const response: any = await client.rest.repos.getContent({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
