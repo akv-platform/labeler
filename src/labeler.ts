@@ -1,4 +1,5 @@
 import * as core from '@actions/core';
+import isEqual from 'lodash.isequal';
 import * as github from '@actions/github';
 import * as pluginRetry from '@octokit/plugin-retry';
 import * as yaml from 'js-yaml';
@@ -76,7 +77,7 @@ export async function run() {
       try {
         let newLabels: string[] = [];
 
-        if (!isListEqual(labelsToAdd, preexistingLabels)) {
+        if (!isEqual(labelsToAdd, preexistingLabels)) {
           await setLabels(client, prNumber, labelsToAdd);
           newLabels = labelsToAdd.filter(l => !preexistingLabels.includes(l));
         }
@@ -328,10 +329,6 @@ function checkMatch(
   }
 
   return true;
-}
-
-function isListEqual(listA: string[], listB: string[]): boolean {
-  return listA.length === listB.length && listA.every(el => listB.includes(el));
 }
 
 async function setLabels(
